@@ -1,3 +1,4 @@
+//CONSTANSTES
 //VARIABLES
 var radiologia = [
   {
@@ -131,6 +132,44 @@ var dental = [
     PREVISION: "ISAPRE",
   },
 ];
+var traumatologia2 = [
+  {
+    HORA: "09:00",
+    PACIENTE: "RENÉ POBLETE",
+    ESPECIALISTA: "ANA GELLONA",
+    RUT: "13123329-7 ",
+    PREVISION: "ISAPRE",
+  },
+  {
+    HORA: "09:30",
+    PACIENTE: "MARIA SOLAR ",
+    ESPECIALISTA: "RAMIRO ANDRADE ",
+    RUT: "12221451-K",
+    PREVISION: "FONASA",
+  },
+  {
+    HORA: "10:00 ",
+    PACIENTE: "RAUL LOYOLA ",
+    ESPECIALISTA: "CARMEN ISLA",
+    RUT: "10112348-3",
+    PREVISION: "ISAPRE",
+  },
+  {
+    HORA: "10:30",
+    PACIENTE: "ANTONIO LARENAS ",
+    ESPECIALISTA: "PABLO LOAYZA ",
+    RUT: "13453234-1 ",
+    PREVISION: "ISAPRE",
+  },
+  {
+    HORA: "12:00 ",
+    PACIENTE: "MATIAS ARAVENA ",
+    ESPECIALISTA: "SUSANA POBLETE",
+    RUT: "14345656-6 ",
+    PREVISION: "FONASA",
+  },
+];
+
 //FUNCIONES
 //se crea funcion para editar la tabla creada en el html.
 //recibe como parametros un arreglo con los datos, una id de la tabla a editar, y un titulo para la tabla
@@ -138,7 +177,8 @@ function escribeTabla(arreglo, idTabla, titulo) {
   //primero creo una cadena de texto vacia, la cual voy a ir editando en la funcion
   let texto = ``;
   //entonces se crea el titulo y texto al comienzo de la tabla
-  texto += `<caption><p>${titulo}</p>
+  texto += `<caption><h3>${titulo}</h3>
+  <p>Cantidad de atenciones para ${titulo}: ${arreglo.length}</p>
   <p> Primera atención: ${arreglo[0].PACIENTE} - ${
     arreglo[0].PREVISION
   } | Última atención: ${arreglo[arreglo.length - 1].PACIENTE} - ${
@@ -161,8 +201,41 @@ function escribeTabla(arreglo, idTabla, titulo) {
   //finalmente se edita el html de la tabla con la variable texto creada anteriormente
   document.getElementById(idTabla).innerHTML = texto;
 }
-//OUTPUT // MAIN
-//se llama entonces la funcion creada anteriormente con los parametros adecuados
+//OUTPUT
+//DESAFIO 2 DESAFIO 2
+//añade nuevos elementos a la lista
+traumatologia = traumatologia.concat(traumatologia2);
+//ordena la lista por hora
+traumatologia.sort(function (a, b) {
+  return (
+    parseInt(a.HORA.split(":").join("")) - parseInt(b.HORA.split(":").join(""))
+  );
+});
+//elimina el primer y ultimo elemento de radiologia
+radiologia.shift();
+radiologia.pop();
+//muestra los pacientes de dental
+var texto_dental = `<h4>Listado datos Dental</h4>`;
+for (let i = 0; i < dental.length; i++) {
+  let dental_valores = Object.values(dental[i]);
+  texto_dental += `${dental_valores.join(" - ")}<br>`;
+}
+document.getElementById("listado-dental").innerHTML = texto_dental;
+//listado total de pacientes
+var pacientes = `<h4>Listato total de pacientes</h4>`;
+function agregaPacientes(arreglo) {
+  for (let i = 0; i < arreglo.length; i++) {
+    pacientes += `${arreglo[i].PACIENTE}<br>`;
+  }
+}
+
+agregaPacientes(radiologia);
+agregaPacientes(traumatologia);
+agregaPacientes(dental);
+
+document.getElementById("listado-pacientes").innerHTML = pacientes;
+
+//se escriben entonces las funciones con los cambios realizados
 escribeTabla(radiologia, "tabla-radiologia", "Radiologia");
 escribeTabla(traumatologia, "tabla-traumatologia", "Traumatologia");
 escribeTabla(dental, "tabla-dental", "Dental");
